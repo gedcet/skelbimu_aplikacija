@@ -92,4 +92,53 @@ const controller_login_get = async (req, res) =>
     }
 }
 
-module.exports = { controller_login_post, controller_login_get }
+
+const controller_login_delete = async (req, res) =>
+{
+    // input validation
+    if (req.cookies.identification_cookie === undefined || req.cookies.identification_cookie === "") 
+    {
+        res.statusCode = 200
+        res.end()
+        return
+    }
+
+    try
+    {
+        //search
+        const result_of_find = await model_vartotojas.find(
+            { identification_cookie: req.cookies.identification_cookie },
+            { _id: 1 },
+            { "limit": 1 })
+
+        if (result_of_find.length === 0) 
+        {
+            res.statusCode = 200
+            res.end()
+            return
+        }
+
+        //change
+        const result_of_updateOne = await model_vartotojas.updateOne(
+            { _id: result_of_find[0]._id },
+            { identification_cookie: "" })
+
+        if (result_of_updateOne.acknowledged === false) 
+        {
+            res.statusCode = 500
+            res.end()
+            return
+        }
+
+        // succsess
+        res.statusCode = 200
+        res.end()
+    }
+    catch (err) 
+    {
+        res.statusCode = 500
+        res.end()
+    }
+}
+
+module.exports = { controller_login_post, controller_login_get, controller_login_delete }
