@@ -1,8 +1,8 @@
 const model_vartotojas = require("../models/model_vartotojas");
 const generate_random_alphanumeric_string = require("../utilities/generate_random_alphanumeric_string");
 const hash_with_sha256_and_encode_to_base64 = require("../utilities/hash_with_sha256_and_encode_to_base64");
-// create user.
-const controller_vartotojas_create = async (req, res) =>
+
+const controller_login_post = async (req, res) =>
 {
     // input validation
     if (req.body.vardas === undefined || req.body.slaptazodis === undefined) 
@@ -11,31 +11,34 @@ const controller_vartotojas_create = async (req, res) =>
         res.end()
         return
     }
-    
+
     try
     {
-        const result_of_find = await model_vartotojas.find({ "vardas": req.body.vardas }, { "_id": 1 }, { "limit": 1 })
-        if (result_of_find.length > 0) 
+        const result_of_find = await model_vartotojas.find({ vardas: req.body.vardas }, { _id: 1, salt: 1, base64_encoded_hash_of_salted_slaptazodis: 1 }, { "limit": 1 })
+
+        if (result_of_find.length === 0) 
         {
             res.statusCode = 500
             res.end()
             return
         }
 
-        //generate data for authentication
-        const salt = generate_random_alphanumeric_string(256)
-        const salted_slaptazodis = req.body.slaptazodis + salt
+        //authentication
+        const salted_slaptazodis = req.body.slaptazodis + result_of_find[0].salt
         const base64_encoded_hash_of_salted_slaptazodis = hash_with_sha256_and_encode_to_base64(salted_slaptazodis)
-        const identification_cookie = generate_random_alphanumeric_string(2048)
-        const result_of_create = await model_vartotojas.create({
-            vardas: req.body.vardas,
-            tipas: "vartotojas",
-            salt: salt,
-            base64_encoded_hash_of_salted_slaptazodis: base64_encoded_hash_of_salted_slaptazodis,
-            identification_cookie: identification_cookie
-        })
 
-        if (result_of_create.errors !== undefined) 
+        if (base64_encoded_hash_of_salted_slaptazodis !== result_of_find[0].base64_encoded_hash_of_salted_slaptazodis)
+        {
+            res.statusCode = 500
+            res.end()
+            return
+        }
+
+        const identification_cookie = generate_random_alphanumeric_string(2048)
+
+        const result_of_updateOne = await model_vartotojas.updateOne({ _id: result_of_find[0]._id }, { identification_cookie: identification_cookie })
+
+        if (result_of_updateOne.errors !== undefined) 
         {
             res.statusCode = 500
             res.end()
@@ -52,4 +55,4 @@ const controller_vartotojas_create = async (req, res) =>
         res.end()
     }
 }
-module.exports = { controller_vartotojas_create } 
+module.exports = { controller_login_post }
