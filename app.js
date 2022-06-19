@@ -9,7 +9,6 @@ const express_1 = express()
 express_1.use(express.json())
 express_1.use(cookie_parser())
 
-
 //endpoints
 express_1.post("/api/vartotojai",controller_vartotojas_create)
 

@@ -13,5 +13,8 @@
     "mongoose": "^6.3.8"
   },
   "keywords": [],
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "create-react-app": "^5.0.1"
+  }
 }
