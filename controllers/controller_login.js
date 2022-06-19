@@ -55,4 +55,41 @@ const controller_login_post = async (req, res) =>
         res.end()
     }
 }
-module.exports = { controller_login_post }
+
+const controller_login_get = async (req, res) =>
+{
+    // input validation
+    if (req.cookies.identification_cookie === undefined || req.cookies.identification_cookie === "") 
+    {
+        res.statusCode = 500
+        res.end()
+        return
+    }
+
+    try
+    {
+        //search
+        const result_of_find = await model_vartotojas.find(
+            { identification_cookie: req.cookies.identification_cookie },
+            { vardas: 1, tipas: 1 },
+            { "limit": 1 })
+
+        if (result_of_find.length === 0) 
+        {
+            res.statusCode = 500
+            res.end()
+            return
+        }
+
+        // succsess
+        res.statusCode = 200
+        res.json({ vardas: result_of_find[0].vardas, tipas: result_of_find[0].tipas })
+    }
+    catch (err) 
+    {
+        res.statusCode = 500
+        res.end()
+    }
+}
+
+module.exports = { controller_login_post, controller_login_get }

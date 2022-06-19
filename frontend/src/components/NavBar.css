@@ -4,6 +4,7 @@
     display: grid;
     align-items: center;
     justify-items: center;
-    grid-template-columns: max-content auto repeat(2, max-content);
+    grid-template-columns: max-content auto repeat(4, max-content);
     border-bottom: 0.1em solid lightgray;
+    gap: 0.5em;
 }

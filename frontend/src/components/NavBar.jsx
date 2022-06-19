@@ -1,5 +1,6 @@
 import "./NavBar.css"
-const NavBar = ({ set_state_current_view }) =>
+
+const NavBar = ({ set_state_current_view, state_vartotojas }) =>
 {
     return (
         <div className="NavBar">
@@ -7,6 +8,10 @@ const NavBar = ({ set_state_current_view }) =>
             <span>logo</span>
 
             <span></span>
+
+            <span>{state_vartotojas.vardas}</span>
+
+            <span>{state_vartotojas.tipas}</span>
 
             <button onClick={() => { set_state_current_view("SignUp") }}>SignUp</button>
 

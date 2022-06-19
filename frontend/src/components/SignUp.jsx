@@ -2,7 +2,7 @@ import "./SignUp.css"
 import axios from "axios"
 import { createRef } from "react"
 
-const SignUp = ({ set_state_status_text }) =>
+const SignUp = ({ set_state_status_text, fetch_state_vartotojas }) =>
 {
     const ref_vardas = createRef()
     const ref_slaptazodis = createRef()
@@ -22,6 +22,7 @@ const SignUp = ({ set_state_status_text }) =>
             })
             set_state_status_text("Atlikta")
             setTimeout(() => { set_state_status_text("") }, 1000)
+            fetch_state_vartotojas()
         }
         catch (err)
         {
