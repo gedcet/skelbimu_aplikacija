@@ -1,0 +1,13 @@
+.Kategorijos {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+}
+
+.Kategorijos>ul>li {
+    margin: 1em;
+}
+
+.Kategorijos>input {
+    margin: 1em;
+}
