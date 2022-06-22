@@ -1,0 +1,22 @@
+.CreateSkelbimas {
+    width: 90%;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    gap: 0.5em;
+}
+
+.CreateSkelbimas>input {
+    width: 100%;
+}
+
+.CreateSkelbimas>textarea {
+    resize: none;
+    height:10em;
+    width: 100%;
+}
+
+.CreateSkelbimas>img {
+    max-width: 100%;
+    height: auto;
+}

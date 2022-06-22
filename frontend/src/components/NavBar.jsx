@@ -55,11 +55,11 @@ const NavBar = ({ set_state_current_view, state_vartotojas, fetch_state_vartotoj
 
                 <span></span>
 
-                <span></span>
-
                 <span>{state_vartotojas.vardas}</span>
 
                 <span>({state_vartotojas.tipas})</span>
+
+                <button onClick={() => { set_state_current_view("CreateSkelbimas") }}>Kurti skelbimą</button>
 
                 <button onClick={handle_click}>SignOut</button>
 
