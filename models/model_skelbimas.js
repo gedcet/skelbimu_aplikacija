@@ -7,9 +7,9 @@ const schema_skelbimas = new mongoose.Schema(
     {
         pavadinimas: { type: String, required: true, minLength: 3, maxLength: 32, match: /^[a-žA-Ž0-9 ,.]*$/ },
         kategorija: { type: String, required: true },
-        aprasas: { type: String, required: true, maxLength: 300, match: /^[a-žA-Ž0-9 ,.]*$/ },
+        aprasas: { type: String, required: true, maxLength: 300, match: /^[a-žA-Ž0-9 ,.\n]*$/ },
         kaina: { type: Number, required: true, maxLength: 300 },
-        nuotrauka_base64: { type: String, required: false, maxLength: 4000000, match: /^[a-zA-Z0-9,:;/+=]*$/ },
+        nuotrauka_base64: { type: String, required: false, maxLength: 5000000, match: /^[a-zA-Z0-9,:;/+=]*$/ },
         autorius: { type: String, required: true }
     })
 

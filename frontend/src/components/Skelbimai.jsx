@@ -1,9 +1,8 @@
 import "./Skelbimai.css"
 import axios from "axios"
-import React, { createRef } from "react"
-import { useState } from "react"
-import { useEffect } from "react"
+import { useState, createRef } from "react"
 import KategorijosSelect from "./KategorijosSelect"
+import SkelbimasSmall from "./SkelbimasSmall"
 
 const Skelbimai = ({ set_state_status_text }) =>
 {
@@ -48,7 +47,7 @@ const Skelbimai = ({ set_state_status_text }) =>
             <button onClick={() => { handle_search(ref_paieskos_fraze.current.value, state_kategorija) }}>ieškoti</button>
 
             {
-                state_skelbimai.map((ele, i) => { return <div key={i}>{ele.pavadinimas}</div> })
+                state_skelbimai.map((ele, i) => { return <SkelbimasSmall key={i} skelbimas={ele} /> })
             }
         </div>
     )

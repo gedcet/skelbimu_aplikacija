@@ -9,7 +9,7 @@ const { controller_skelbimas_create, controller_skelbimas_search } = require("./
 const express_1 = express()
 
 //middlewares
-express_1.use(express.json())
+express_1.use(express.json({limit: '8mb'}))
 express_1.use(cookie_parser())
 
 //endpoints
