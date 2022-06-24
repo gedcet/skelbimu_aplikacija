@@ -22,7 +22,7 @@ const KategorijosSelect = ({ state_status_text, set_state_kategorija }) =>
             })
             set_state_status("success")
             set_state_kategorijos(result.data)
-            set_state_kategorija(state_kategorijos[0].pavadinimas)
+            set_state_kategorija(result.data[0].pavadinimas)
         }
         catch (err)
         {

@@ -9,6 +9,7 @@ import FooterBar from './components/FooterBar'
 import axios from "axios"
 import Kategorijos from './components/Kategorijos'
 import CreateSkelbimas from './components/CreateSkelbimas'
+import Skelbimai from './components/Skelbimai'
 
 function App()
 {
@@ -73,6 +74,12 @@ function App()
           else if (state_current_view === "CreateSkelbimas")
           {
             return <CreateSkelbimas
+              set_state_status_text={set_state_status_text}
+            />
+          }
+          else if (state_current_view === "Skelbimai")
+          {
+            return <Skelbimai
               set_state_status_text={set_state_status_text}
             />
           }

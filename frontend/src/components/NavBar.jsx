@@ -39,6 +39,8 @@ const NavBar = ({ set_state_current_view, state_vartotojas, fetch_state_vartotoj
 
                 <span></span>
 
+                <span></span>
+
                 <button onClick={() => { set_state_current_view("SignUp") }}>SignUp</button>
 
                 <button onClick={() => { set_state_current_view("SignIn") }}>SignIn</button>
@@ -59,6 +61,8 @@ const NavBar = ({ set_state_current_view, state_vartotojas, fetch_state_vartotoj
 
                 <span>({state_vartotojas.tipas})</span>
 
+                <button onClick={() => { set_state_current_view("Skelbimai") }}>Skelbimai</button>
+
                 <button onClick={() => { set_state_current_view("CreateSkelbimas") }}>Kurti skelbimą</button>
 
                 <button onClick={handle_click}>SignOut</button>
@@ -78,6 +82,8 @@ const NavBar = ({ set_state_current_view, state_vartotojas, fetch_state_vartotoj
                 <span>{state_vartotojas.vardas}</span>
 
                 <span>({state_vartotojas.tipas})</span>
+
+                <button onClick={() => { set_state_current_view("Skelbimai") }}>Skelbimai</button>
 
                 <button onClick={() => { set_state_current_view("Kategorijos") }}>Kategorijos</button>
 
