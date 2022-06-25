@@ -19,3 +19,11 @@
     max-height: 60vh;
     object-fit: contain;
 }
+
+.SkelbimasBig>textarea {
+    width: 90%;
+    height: 6em;
+    resize: none;
+    border-radius: 1em;
+    padding: 1em;
+}

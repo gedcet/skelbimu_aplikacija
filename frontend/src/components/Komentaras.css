@@ -1,0 +1,15 @@
+.Komentaras {
+    width: 100%;
+    display: grid;
+}
+
+.Komentaras :nth-child(1) {
+    font-weight: 900;
+}
+
+.Komentaras :nth-child(2) {
+    padding: 1em;
+    border: 0.1em solid lightgrey;
+    border-radius: 1em;
+    margin: 1em;
+}

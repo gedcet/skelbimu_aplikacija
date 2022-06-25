@@ -55,7 +55,11 @@ const Skelbimai = ({ set_state_status_text }) =>
 
             {
                 state_skelbimas_id !== null ?
-                    <SkelbimasBig _id={state_skelbimas_id} handle_close={() => { set_state_skelbimas_id(null) }} />
+                    <SkelbimasBig
+                        _id={state_skelbimas_id}
+                        handle_close={() => { set_state_skelbimas_id(null) }}
+                        set_state_status_text={set_state_status_text}
+                    />
                     :
                     null
             }
