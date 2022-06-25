@@ -139,4 +139,55 @@ const controller_skelbimas_search = async (req, res) =>
     }
 }
 
-module.exports = { controller_skelbimas_create, controller_skelbimas_search } 
+const controller_skelbimas_read = async (req, res) =>
+{
+    // input validation
+    if (req.cookies.identification_cookie === undefined ||
+        req.cookies.identification_cookie === "" ||
+        req.params._id === undefined)
+    {
+        res.statusCode = 500
+        res.end()
+        return
+    }
+
+    try
+    {
+        // identification by identification_cookie
+        const result_of_model_vartotojas_find = await model_vartotojas.find(
+            { identification_cookie: req.cookies.identification_cookie },
+            { vardas: 1 },
+            { "limit": 1 })
+
+        // prevent execution for unidentificated users
+        if (result_of_model_vartotojas_find.length === 0) 
+        {
+            res.statusCode = 500
+            res.end()
+            return
+        }
+
+        // find
+        const result_of_model_skelbimas_find = await model_skelbimas.find(
+            { _id: req.params._id }
+        )
+
+        if (result_of_model_skelbimas_find.errors !== undefined) 
+        {
+            res.statusCode = 500
+            res.end()
+            return
+        }
+
+        // succsess
+        res.statusCode = 200
+        res.json(result_of_model_skelbimas_find[0])
+    }
+    catch (err) 
+    {
+        res.statusCode = 500
+        res.end()
+    }
+}
+
+module.exports = { controller_skelbimas_create, controller_skelbimas_search, controller_skelbimas_read } 
