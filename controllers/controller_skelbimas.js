@@ -258,4 +258,78 @@ const controller_skelbimas_add_komentaras = async (req, res) =>
     }
 }
 
-module.exports = { controller_skelbimas_create, controller_skelbimas_search, controller_skelbimas_read, controller_skelbimas_add_komentaras } 
+const controller_skelbimas_update = async (req, res) =>
+{
+    // input validation
+    if (req.cookies.identification_cookie === undefined ||
+        req.cookies.identification_cookie === "" ||
+        req.params._id === undefined)
+    {
+        res.statusCode = 400
+        res.end()
+        return
+    }
+
+    try
+    {
+        // identification by identification_cookie
+        const result_of_model_vartotojas_find = await model_vartotojas.find(
+            { identification_cookie: req.cookies.identification_cookie },
+            { vardas: 1 },
+            { "limit": 1 })
+
+        // prevent execution for unidentificated users
+        if (result_of_model_vartotojas_find[0] === undefined) 
+        {
+            res.statusCode = 401
+            res.end()
+            return
+        }
+
+        // find skelbimas by _id
+        const result_of_model_skelbimas_find = await model_skelbimas.find(
+            { _id: req.params._id },
+            {},
+            { "limit": 1 })
+
+        // prevent if skelbimas not found
+        if (result_of_model_skelbimas_find[0] === undefined) 
+        {
+            res.statusCode = 404
+            res.end()
+            return
+        }
+
+        // prevent execution if user isn't autorius
+        if (result_of_model_skelbimas_find[0].autorius !== result_of_model_vartotojas_find[0].vardas) 
+        {
+            res.statusCode = 403
+            res.end()
+            return
+        }
+
+        // update
+        const result_of_model_skelbimas_updateOne = await model_skelbimas.updateOne(
+            { _id: req.params._id },
+            { ...req.body }
+        )
+
+        if (result_of_model_skelbimas_updateOne.modifiedCount !== 1) 
+        {
+            res.statusCode = 500
+            res.end()
+            return
+        }
+
+        // succsess
+        res.statusCode = 200
+        res.end()
+    }
+    catch (err) 
+    {
+        res.statusCode = 500
+        res.end()
+    }
+}
+
+module.exports = { controller_skelbimas_create, controller_skelbimas_search, controller_skelbimas_read, controller_skelbimas_add_komentaras, controller_skelbimas_update } 

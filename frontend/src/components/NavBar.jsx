@@ -26,7 +26,7 @@ const NavBar = ({ set_state_current_view, state_vartotojas, fetch_state_vartotoj
         }
     }
 
-    if (state_vartotojas.vardas === undefined)
+    if (state_vartotojas === null)
     {
         return (
             <div className="NavBar">

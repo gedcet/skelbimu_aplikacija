@@ -1,0 +1,33 @@
+.SkelbimasBigEdit {
+    position: fixed;
+    overflow: auto;
+    left: 1em;
+    right: 1em;
+    top: 1em;
+    bottom: 1em;
+    background-color: white;
+    border: 0.1em solid lightgray;
+    border-radius: 1em;
+    padding: 1em;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+}
+
+.SkelbimasBigEdit>img {
+    width: 100%;
+    max-height: 60vh;
+    object-fit: contain;
+}
+
+.SkelbimasBigEdit>textarea {
+    width: 90%;
+    height: 6em;
+    resize: none;
+    border-radius: 1em;
+    padding: 1em;
+}
+
+.SkelbimasBigEdit>input {
+    width: 90%;
+}
