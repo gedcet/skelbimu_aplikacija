@@ -9,7 +9,7 @@ const { controller_skelbimas_create, controller_skelbimas_search, controller_ske
 const express_1 = express()
 
 //middlewares
-express_1.use(express.json({limit: '8mb'}))
+express_1.use(express.json({ limit: '8mb' }))
 express_1.use(cookie_parser())
 
 //endpoints
@@ -21,7 +21,7 @@ express_1.post("/api/kategorijos", controller_kategorija_create)
 express_1.get("/api/kategorijos", controller_kategorija_read)
 express_1.delete("/api/kategorijos", controller_kategorija_delete)
 express_1.post("/api/skelbimai", controller_skelbimas_create)
-express_1.get("/api/skelbimai",controller_skelbimas_search)
+express_1.get("/api/skelbimai", controller_skelbimas_search)
 express_1.get("/api/skelbimai/:_id", controller_skelbimas_read)
 express_1.post("/api/skelbimai/:_id/komentarai", controller_skelbimas_add_komentaras)
 

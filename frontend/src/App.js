@@ -10,6 +10,7 @@ import axios from "axios"
 import Kategorijos from './components/Kategorijos'
 import CreateSkelbimas from './components/CreateSkelbimas'
 import Skelbimai from './components/Skelbimai'
+import ManoSkelbimai from './components/ManoSkelbimai'
 
 function App()
 {
@@ -28,6 +29,12 @@ function App()
         url: "/api/login",
         data: {}
       })
+
+      if (state_vartotojas.vardas === axios_result.data.vardas)
+      {
+        return
+      }
+
       set_state_vartotojas({ vardas: axios_result.data.vardas, tipas: axios_result.data.tipas })
     }
     catch (err)
@@ -51,6 +58,7 @@ function App()
       {
         (() =>
         {
+
           if (state_current_view === "SignUp")
           {
             return <SignUp
@@ -58,31 +66,47 @@ function App()
               fetch_state_vartotojas={fetch_state_vartotojas}
             />
           }
-          else if (state_current_view === "SignIn")
+
+          if (state_current_view === "SignIn")
           {
             return <SignIn
               set_state_status_text={set_state_status_text}
               fetch_state_vartotojas={fetch_state_vartotojas}
             />
           }
-          else if (state_current_view === "Kategorijos")
+
+          if (state_current_view === "Kategorijos")
           {
+            fetch_state_vartotojas()
             return <Kategorijos
               set_state_status_text={set_state_status_text}
             />
           }
-          else if (state_current_view === "CreateSkelbimas")
+
+          if (state_current_view === "CreateSkelbimas")
           {
+            fetch_state_vartotojas()
             return <CreateSkelbimas
               set_state_status_text={set_state_status_text}
             />
           }
-          else if (state_current_view === "Skelbimai")
+
+          if (state_current_view === "Skelbimai")
           {
+            fetch_state_vartotojas()
             return <Skelbimai
               set_state_status_text={set_state_status_text}
             />
           }
+
+          if (state_current_view === "ManoSkelbimai")
+          {
+            fetch_state_vartotojas()
+            return <ManoSkelbimai
+              state_vartotojas={state_vartotojas}
+            />
+          }
+
         })()
       }
 
