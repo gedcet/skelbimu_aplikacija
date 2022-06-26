@@ -9,7 +9,8 @@ const schema_vartotojas = new mongoose.Schema(
         tipas: { type: String, required: true, enum: ["administratorius", "vartotojas"] },
         salt: { type: String, required: true, maxLength: 300 },
         base64_encoded_hash_of_salted_slaptazodis: { type: String, required: true, maxLength: 300 },
-        identification_cookie: { type: String, required: true, maxLength: 2048 }
+        identification_cookie: { type: String, required: true, maxLength: 2048 },
+        patikusiu_sarasas: [{ _id: { type: mongoose.Types.ObjectId } }]
     })
 
 const model_vartotojas = mongoose_connection.model("collection_vartotojai", schema_vartotojas)

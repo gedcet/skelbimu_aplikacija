@@ -11,6 +11,7 @@ import Kategorijos from './components/Kategorijos'
 import CreateSkelbimas from './components/CreateSkelbimas'
 import Skelbimai from './components/Skelbimai'
 import ManoSkelbimai from './components/ManoSkelbimai'
+import PatikusiuSarasas from './components/PatikusiuSarasas'
 
 function App()
 {
@@ -108,6 +109,16 @@ function App()
               set_state_status_text={set_state_status_text}
             />
           }
+
+          if (state_current_view === "PatikusiuSarasas")
+          {
+            fetch_state_vartotojas()
+            return <PatikusiuSarasas
+              state_vartotojas={state_vartotojas}
+              set_state_status_text={set_state_status_text}
+            />
+          }
+
 
         })()
       }

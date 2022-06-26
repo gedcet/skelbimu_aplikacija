@@ -1,3 +1,4 @@
+const model_skelbimas = require("../models/model_skelbimas");
 const model_vartotojas = require("../models/model_vartotojas");
 const generate_random_alphanumeric_string = require("../utilities/generate_random_alphanumeric_string");
 const hash_with_sha256_and_encode_to_base64 = require("../utilities/hash_with_sha256_and_encode_to_base64");
@@ -11,7 +12,7 @@ const controller_vartotojas_create = async (req, res) =>
         res.end()
         return
     }
-    
+
     try
     {
         const result_of_find = await model_vartotojas.find({ "vardas": req.body.vardas }, { "_id": 1 }, { "limit": 1 })
@@ -52,4 +53,169 @@ const controller_vartotojas_create = async (req, res) =>
         res.end()
     }
 }
-module.exports = { controller_vartotojas_create } 
+
+const controller_vartotojas_add_skelbimas_to_current_vartotojas_patikusiu_sarasas = async (req, res) =>
+{
+    // input validation
+    if (req.cookies.identification_cookie === undefined ||
+        req.cookies.identification_cookie === "" ||
+        req.body._id === undefined)
+    {
+        res.statusCode = 400
+        res.end()
+        return
+    }
+
+    try
+    {
+        // identification by identification_cookie
+        const result_of_model_vartotojas_find = await model_vartotojas.find(
+            { identification_cookie: req.cookies.identification_cookie },
+            { id: 1 },
+            { "limit": 1 })
+
+        // prevent execution for unidentificated users
+        if (result_of_model_vartotojas_find[0] === undefined) 
+        {
+            res.statusCode = 401
+            res.end()
+            return
+        }
+
+        // find skelbimas by _id
+        const result_of_model_skelbimas_find = await model_skelbimas.find(
+            { _id: req.body._id },
+            { id: 1 },
+            { "limit": 1 })
+
+        // prevent if skelbimas not found
+        if (result_of_model_skelbimas_find[0] === undefined) 
+        {
+            res.statusCode = 404
+            res.end()
+            return
+        }
+
+        // add to patikusiu_sarasas
+        const result_of_model_vartotojas_updateOne = await model_vartotojas.updateOne(
+            { _id: result_of_model_vartotojas_find[0]._id },
+            { $push: { patikusiu_sarasas: { _id: req.body._id } } })
+
+        if (result_of_model_vartotojas_updateOne.modifiedCount !== 1) 
+        {
+            res.statusCode = 500
+            res.end()
+            return
+        }
+
+        // succsess
+        res.statusCode = 200
+        res.end()
+    }
+    catch (err) 
+    {
+        res.statusCode = 500
+        res.end()
+    }
+}
+
+const controller_vartotojas_read_current_vartotojas_patikusiu_sarasas = async (req, res) =>
+{
+    // input validation
+    if (req.cookies.identification_cookie === undefined ||
+        req.cookies.identification_cookie === "")
+    {
+        res.statusCode = 400
+        res.end()
+        return
+    }
+
+    try
+    {
+        // identification by identification_cookie
+        const result_of_model_vartotojas_find = await model_vartotojas.find(
+            { identification_cookie: req.cookies.identification_cookie },
+            { patikusiu_sarasas: 1 },
+            { "limit": 1 })
+
+        // prevent execution for unidentificated users
+        if (result_of_model_vartotojas_find[0] === undefined) 
+        {
+            res.statusCode = 401
+            res.end()
+            return
+        }
+
+        const result_of_skelbimai_find = await model_skelbimas.find(
+            { _id: { $in: result_of_model_vartotojas_find[0].patikusiu_sarasas } },
+            { __v: 0 },
+            { limit: 0 })
+
+        // succsess
+        res.statusCode = 200
+        res.json(result_of_skelbimai_find)
+    }
+    catch (err) 
+    {
+        res.statusCode = 500
+        res.end()
+    }
+}
+
+const controller_vartotojas_remove_skelbimas_from_current_vartotojas_patikusiu_sarasas = async (req, res) =>
+{
+    // input validation
+    if (req.cookies.identification_cookie === undefined ||
+        req.cookies.identification_cookie === "" ||
+        req.params._id === undefined)
+    {
+        res.statusCode = 400
+        res.end()
+        return
+    }
+
+    try
+    {
+        // identification by identification_cookie
+        const result_of_model_vartotojas_find = await model_vartotojas.find(
+            { identification_cookie: req.cookies.identification_cookie },
+            { vardas: 1 },
+            { "limit": 1 })
+
+        // prevent execution for unidentificated users
+        if (result_of_model_vartotojas_find[0] === undefined) 
+        {
+            res.statusCode = 401
+            res.end()
+            return
+        }
+
+        // remove from patikusiu_sarasas
+        const result_of_model_vartotojas_updateOne = await model_vartotojas.updateOne(
+            { _id: result_of_model_vartotojas_find[0]._id },
+            { $pull: { patikusiu_sarasas: { _id: req.params._id } }})
+
+        if (result_of_model_vartotojas_updateOne.modifiedCount !== 1) 
+        {
+            res.statusCode = 500
+            res.end()
+            return
+        }
+
+        // succsess
+        res.statusCode = 200
+        res.end()
+    }
+    catch (err) 
+    {
+        res.statusCode = 500
+        res.end()
+    }
+}
+
+module.exports = {
+    controller_vartotojas_create,
+    controller_vartotojas_add_skelbimas_to_current_vartotojas_patikusiu_sarasas,
+    controller_vartotojas_read_current_vartotojas_patikusiu_sarasas,
+    controller_vartotojas_remove_skelbimas_from_current_vartotojas_patikusiu_sarasas
+} 
