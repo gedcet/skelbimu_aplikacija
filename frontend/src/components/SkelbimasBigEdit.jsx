@@ -50,6 +50,24 @@ const SkelbimasBigEdit = ({ _id, handle_close, set_state_status_text }) =>
         }
     }
 
+    const handle_delete = async (_id) =>
+    {
+        try
+        {
+            set_state_status_text("vykdoma...")
+            const result = await axios({
+                method: "delete",
+                url: `/api/skelbimai/${_id}`
+            })
+            set_state_status_text("Atlikta")
+            setTimeout(() => { set_state_status_text("") }, 1000)
+        }
+        catch (err)
+        {
+            set_state_status("error")
+        }
+    }
+
     if (state_status === "loading")
     {
         return (
@@ -123,6 +141,8 @@ const SkelbimasBigEdit = ({ _id, handle_close, set_state_status_text }) =>
                     handle_update(_id, copy_of_state_skelbimas)
                 }
                 }>įrašyti</button>
+
+                <button onClick={() => { handle_delete(_id) }}>Ištrinti skelbimą</button>
 
                 <button onClick={handle_close}>uždaryti</button>
 
