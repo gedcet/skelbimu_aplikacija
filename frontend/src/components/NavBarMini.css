@@ -1,0 +1,7 @@
+.NavBarMini {
+    width: 100%;
+    min-height: 5em;
+    display: grid;
+    border-bottom: 0.1em solid lightgray;
+    gap: 0.5em;
+}

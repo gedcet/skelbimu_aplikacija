@@ -9,6 +9,7 @@ const { controller_skelbimas_create, controller_skelbimas_search, controller_ske
 const express_1 = express()
 
 //middlewares
+express_1.use(express.static("./frontend/build"))
 express_1.use(express.json({ limit: '8mb' }))
 express_1.use(cookie_parser())
 

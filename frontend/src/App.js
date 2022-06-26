@@ -12,6 +12,7 @@ import CreateSkelbimas from './components/CreateSkelbimas'
 import Skelbimai from './components/Skelbimai'
 import ManoSkelbimai from './components/ManoSkelbimai'
 import PatikusiuSarasas from './components/PatikusiuSarasas'
+import NavBarMini from './components/NavBarMini'
 
 function App()
 {
@@ -20,6 +21,8 @@ function App()
   const [state_current_view, set_state_current_view] = useState("SignIn")
 
   const [state_vartotojas, set_state_vartotojas] = useState(null)
+
+  const [state_mobile_mode, set_state_mobile_mode] = useState(false)
 
   const fetch_state_vartotojas = async () =>
   {
@@ -47,15 +50,53 @@ function App()
 
   useEffect(() => { fetch_state_vartotojas() }, [])
 
+  useEffect(() =>
+  {
+    if (document.documentElement.clientWidth < document.documentElement.clientHeight)
+    {
+      set_state_mobile_mode(true)
+    }
+    else
+    {
+      set_state_mobile_mode(false)
+    }
+
+    window.addEventListener('resize', () =>
+    {
+      // if (document.documentElement.clientWidth < document.documentElement.scrollWidth)
+      if (document.documentElement.clientWidth < document.documentElement.clientHeight)
+      {
+        set_state_mobile_mode(true)
+      }
+      else
+      {
+        set_state_mobile_mode(false)
+      }
+    })
+  }, [])
+
+
+
   return (
     <div className="App">
 
-      <NavBar
-        set_state_current_view={set_state_current_view}
-        state_vartotojas={state_vartotojas}
-        fetch_state_vartotojas={fetch_state_vartotojas}
-        set_state_status_text={set_state_status_text}
-      />
+      {
+        state_mobile_mode === true ?
+          <NavBarMini
+            set_state_current_view={set_state_current_view}
+            state_vartotojas={state_vartotojas}
+            fetch_state_vartotojas={fetch_state_vartotojas}
+            set_state_status_text={set_state_status_text}
+          />
+          :
+          <NavBar
+            set_state_current_view={set_state_current_view}
+            state_vartotojas={state_vartotojas}
+            fetch_state_vartotojas={fetch_state_vartotojas}
+            set_state_status_text={set_state_status_text}
+          />
+      }
+
 
       {
         (() =>

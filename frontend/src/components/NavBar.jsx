@@ -1,6 +1,7 @@
 import "./NavBar.css"
 import axios from "axios"
 import { useState } from "react"
+import { useEffect } from "react"
 
 const NavBar = ({ set_state_current_view, state_vartotojas, fetch_state_vartotojas, set_state_status_text }) =>
 {
